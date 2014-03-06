@@ -1,0 +1,5 @@
+#!/bin/bash
+
+set -e
+
+python -m SimpleHTTPServer ${1:-8080}

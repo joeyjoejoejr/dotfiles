@@ -1,0 +1,9 @@
+#!/usr/bin/env ruby
+
+require 'mechanize'
+
+agent = Mechanize.new
+page = agent.get("http://www.google.com/search?q=#{ARGV.join("+")}&tbm=isch")
+page.links.map(&:href).grep(/imgurl/).map do |image_url|
+  puts image_url[/imgurl=([^%]*).*&img/, 1]
+end
