@@ -1,11 +1,11 @@
 filetype off                   " required!
 
-set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
 
 " let Vundle manage Vundle
 " required! 
-Plugin 'gmarik/vundle'
+Plugin 'gmarik/Vundle.vim'
 
 " My Plugins here:
 
@@ -43,3 +43,4 @@ Plugin 'daviddavis/vim-colorpack'
 Plugin 'kien/ctrlp.vim'
 
 Plugin 'quanganhdo/grb256'
+call vundle#end()
