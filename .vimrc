@@ -54,6 +54,7 @@ set nu
 " comment out to split left and top instead of right and below
 set splitright
 set splitbelow
+set cursorline
 
 " toggle paste mode with F2
 set pastetoggle=<F2>
@@ -73,16 +74,17 @@ augroup vimrcEx
 
 
   " FILE TYPES
-  autocmd BufRead *.sql set filetype=mysql
-  autocmd BufRead *.clj set filetype=clojure
-  autocmd BufRead *.json set filetype=javascript
-  autocmd BufRead *.thor set filetype=ruby
-  autocmd BufRead Gemfile set filetype=ruby
-  autocmd BufRead Rakefile set filetype=ruby
-  autocmd BufRead *.handlebars set filetype=html
-  autocmd BufRead *.hbs set filetype=html
-  autocmd BufRead *.eex set filetype=html
+  autocmd BufNewFile,BufRead *.sql set filetype=mysql
+  autocmd BufNewFile,BufRead *.clj set filetype=clojure
+  autocmd BufNewFile,BufRead *.json set filetype=javascript
+  autocmd BufNewFile,BufRead *.thor set filetype=ruby
+  autocmd BufNewFile,BufRead Gemfile set filetype=ruby
+  autocmd BufNewFile,BufRead Rakefile set filetype=ruby
+  autocmd BufNewFile,BufRead *.handlebars set filetype=html
+  autocmd BufNewFile,BufRead *.hbs set filetype=html
+  autocmd BufNewFile,BufRead *.eex set filetype=html
 
+  autocmd FileType objc set softtabstop=4 tabstop=4 shiftwidth=4
   " Jump to last cursor position unless it's invalid or in an event handler
   autocmd BufReadPost *
         \ if line("'\"") > 0 && line("'\"") <= line("$") |
@@ -108,9 +110,12 @@ augroup END
 " PLUGIN SETTINGS
 " ---------------------------------------------------------------------------
 
+" Dash Setting
+let g:dash_map = { 'objc': 'iphoneos' }
+
 " syntastic warnings
 let g:syntastic_enable_signs=1
-let g:syntastic_quiet_warnings=1
+let g:syntastic_quiet_messages = {'level': 'warnings'}
 let g:syntastic_mode_map={ 'mode': 'active', 'active_filetypes': [], 'passive_filetypes': ['html', 'vimwiki', 'vim'] }
 
 " % to bounce from do to end etc.
@@ -122,76 +127,86 @@ nnoremap <F5> :GundoToggle<CR>
 " this seems to fix rvm
 set shell=/bin/bash
 
+" clang_complete settings
+" let g:clang_complete_auto = 0
+" let g:clang_use_library = 1
+" let g:clang_periodic_quickfix = 0
+" let g:clang_close_preview = 1
+" let g:clang_snippets = 1
+
+" let g:clang_exec = '/Users/joe/.vim/bundle/clang_complete/clang/bin'
+" let g:clang_library_path = '/Users/joe/.vim/bundle/clang_complete/clang/lib'
+
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " RUNNING TESTS
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-function! MapCR()
-  nnoremap <cr> :call RunTestFile()<cr>
-endfunction
-call MapCR()
+" function! MapCR()
+"   nnoremap <cr> :call RunTestFile()<cr>
+" endfunction
+" call MapCR()
 
-nnoremap <leader>T :call RunNearestTest()<cr>
-nnoremap <leader>a :call RunTests('')<cr>
-nnoremap <leader>c :w\|:!script/features<cr>
-nnoremap <leader>w :w\|:!script/features --profile wip<cr>
+" nnoremap <leader>T :call RunNearestTest()<cr>
+" nnoremap <leader>a :call RunTests('')<cr>
+" nnoremap <leader>c :w\|:!script/features<cr>
+" nnoremap <leader>w :w\|:!script/features --profile wip<cr>
 
-function! RunTestFile(...)
-    if a:0
-        let command_suffix = a:1
-    else
-        let command_suffix = ""
-    endif
+" function! RunTestFile(...)
+"     if a:0
+"         let command_suffix = a:1
+"     else
+"         let command_suffix = ""
+"     endif
 
-    " Run the tests for the previously-marked file.
-    let in_test_file = match(expand("%"), '\(.feature\|_spec.rb\)$') != -1
-    if in_test_file
-        call SetTestFile()
-    elseif !exists("t:grb_test_file")
-        return
-    end
-    call RunTests(t:grb_test_file . command_suffix)
-endfunction
+"     " Run the tests for the previously-marked file.
+"     let in_test_file = match(expand("%"), '\(.feature\|_spec.rb\)$') != -1
+"     if in_test_file
+"         call SetTestFile()
+"     elseif !exists("t:grb_test_file")
+"         return
+"     end
+"     call RunTests(t:grb_test_file . command_suffix)
+" endfunction
 
-function! RunNearestTest()
-    let spec_line_number = line('.')
-    call RunTestFile(":" . spec_line_number)
-endfunction
+" function! RunNearestTest()
+"     let spec_line_number = line('.')
+"     call RunTestFile(":" . spec_line_number)
+" endfunction
 
-function! SetTestFile()
-    " Set the spec file that tests will be run for.
-    let t:grb_test_file=@%
-endfunction
+" function! SetTestFile()
+"     " Set the spec file that tests will be run for.
+"     let t:grb_test_file=@%
+" endfunction
 
-function! RunTests(filename)
-    " Write the file and run tests for the given filename
-    if expand("%") != ""
-      :w
-    end
-    if match(a:filename, '\.feature$') != -1
-        exec ":!script/features " . a:filename
-    else
-        " First choice: project-specific test script
-        if filereadable("script/test")
-            exec ":!script/test " . a:filename
-        " Fall back to the .test-commands pipe if available, assuming someone
-        " is reading the other side and running the commands
-        elseif filewritable(".test-commands")
-          let cmd = 'rspec --color --format progress --require "~/lib/vim_rspec_formatter" --format VimFormatter --out tmp/quickfix'
-          exec ":!echo " . cmd . " " . a:filename . " > .test-commands"
+" function! RunTests(filename)
+"     " Write the file and run tests for the given filename
+"     if expand("%") != ""
+"       :w
+"     end
+"     if match(a:filename, '\.feature$') != -1
+"         exec ":!script/features " . a:filename
+"     else
+"         " First choice: project-specific test script
+"         if filereadable("script/test")
+"             exec ":!script/test " . a:filename
+"         " Fall back to the .test-commands pipe if available, assuming someone
+"         " is reading the other side and running the commands
+"         elseif filewritable(".test-commands")
+"           let cmd = 'rspec --color --format progress --require "~/lib/vim_rspec_formatter" --format VimFormatter --out tmp/quickfix'
+"           exec ":!echo " . cmd . " " . a:filename . " > .test-commands"
 
-          " Write an empty string to block until the command completes
-          sleep 100m " milliseconds
-          :!echo > .test-commands
-          redraw!
-        " Fall back to a blocking test run with Bundler
-        elseif filereadable("Gemfile")
-            exec ":!bundle exec rspec --color " . a:filename
-        " Fall back to a normal blocking test run
-        else
-            exec ":!rspec --color " . a:filename
-        end
-    end
-endfunction
+"           " Write an empty string to block until the command completes
+"           sleep 100m " milliseconds
+"           :!echo > .test-commands
+"           redraw!
+"         " Fall back to a blocking test run with Bundler
+"         elseif filereadable("Gemfile")
+"             exec ":!bundle exec rspec --color " . a:filename
+"         " Fall back to a normal blocking test run
+"         else
+"             exec ":!rspec --color " . a:filename
+"         end
+"     end
+" endfunction
 
 " ---------------------------------------------------------------------------
 " MAPPINGS
@@ -217,6 +232,7 @@ noremap , \
 noremap \ ,
 let mapleader = ','
 let g:ctrlp_map = '<c-p>'
+let g:ctrlp_custom_ignore = '\v[\/](src\/bower_components|dist)'
 function! MapCR()
   nnoremap <cr> :nohl<cr><cr>
 endfunction
@@ -238,6 +254,15 @@ command! -nargs=1 Scommit silent execute '!testandcommit' <f-args> '&>/dev/null'
 " dash
 nmap <silent> <leader>dd <Plug>DashSearch
 nmap <silent> <leader>dg <Plug>DashGlobalSearch
+
+" smart square brackets for objc methods
+imap <C-]> <Esc>yss]$i
+"
+" Objective-C related tasks bindings
+nmap <leader>x :!rake xcode_build<CR>
+nmap <leader>r :!rake simulator<CR>
+nmap <leader>ll :!rake debug<CR>
+nmap <leader>cl :!rake clang_db<CR>
 
 " map git commands
 nmap <leader>gs :Gstatus<cr>
