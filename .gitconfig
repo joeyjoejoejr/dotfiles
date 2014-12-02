@@ -1,0 +1,15 @@
+[user]
+	name = Joe Jackson
+	email = cpmhjoe@gmail.com
+[push]
+	default = simple
+[credential]
+	helper = osxkeychain
+[alias]
+  c = commit
+  co = checkout
+  cob = checkout -b
+  s = status
+  firstpush = !sh -c 'git push 2>&1 | grep git | sh'
+  fp = !git firstpush
+
