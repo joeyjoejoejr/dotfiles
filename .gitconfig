@@ -13,3 +13,5 @@
   firstpush = !sh -c 'git push 2>&1 | grep git | sh'
   fp = !git firstpush
 
+[merge]
+	conflictstyle = diff3
