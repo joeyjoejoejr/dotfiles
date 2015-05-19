@@ -83,6 +83,7 @@ augroup vimrcEx
   autocmd BufNewFile,BufRead *.handlebars set filetype=html
   autocmd BufNewFile,BufRead *.hbs set filetype=html
   autocmd BufNewFile,BufRead *.eex set filetype=html
+  autocmd BufNewFile,BufRead *.dasm set filetype=m65
 
   autocmd FileType objc set softtabstop=4 tabstop=4 shiftwidth=4
   " Jump to last cursor position unless it's invalid or in an event handler
