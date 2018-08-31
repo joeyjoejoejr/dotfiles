@@ -13,7 +13,12 @@ Plugin 'VundleVim/Vundle.vim'
 Plugin 'elixir-lang/vim-elixir'
 Plugin 'kchmck/vim-coffee-script'
 Plugin 'pangloss/vim-javascript'
+Plugin 'mxw/vim-jsx', { 'for': ['jsx', 'javascript.jsx'] }
 Plugin 'fatih/vim-go'
+Plugin 'ngmy/vim-rubocop'
+
+" Expansion
+Plugin 'mattn/emmet-vim'
 
 Plugin 'rizzatti/dash.vim'
 

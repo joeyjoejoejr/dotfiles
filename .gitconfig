@@ -17,3 +17,5 @@
 	conflictstyle = diff3
 [core]
 	precomposeunicode = true
+[rerere]
+	enabled = false

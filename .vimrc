@@ -10,6 +10,17 @@ endif
 syntax on
 filetype plugin indent on
 
+" jsx support
+let g:jsx_ext_required = 0
+let g:user_emmet_settings = {
+\  'javascript.jsx' : {
+\      'extends' : 'jsx',
+\  },
+\  'javascript' : {
+\      'extends' : 'jsx',
+\  },
+\}
+
 " ---------------------------------------------------------------------------
 " BASIC SETTINGS
 " ---------------------------------------------------------------------------
@@ -119,6 +130,8 @@ let g:dash_map = { 'objc': 'iphoneos' }
 let g:syntastic_enable_signs=1
 let g:syntastic_quiet_messages = {'level': 'warnings'}
 let g:syntastic_mode_map={ 'mode': 'active', 'active_filetypes': [], 'passive_filetypes': ['html', 'vimwiki', 'vim'] }
+let g:syntastic_javascript_checkers=['eslint']
+let g:syntastic_javascript_eslint_exe='$(npm bin)/eslint'
 
 " % to bounce from do to end etc.
 runtime! macros/matchit.vim
