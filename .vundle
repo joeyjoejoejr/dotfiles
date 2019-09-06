@@ -16,9 +16,14 @@ Plugin 'pangloss/vim-javascript'
 Plugin 'mxw/vim-jsx', { 'for': ['jsx', 'javascript.jsx'] }
 Plugin 'fatih/vim-go'
 Plugin 'ngmy/vim-rubocop'
+Plugin 'rust-lang/rust.vim'
+Plugin 'HerringtonDarkholme/yats.vim;
 
 " Expansion
 Plugin 'mattn/emmet-vim'
+
+Plugin 'majutsushi/tagbar'
+Plugin 'mhartington/nvim-typescript'
 
 Plugin 'rizzatti/dash.vim'
 

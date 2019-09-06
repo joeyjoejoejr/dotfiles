@@ -1,10 +1,16 @@
+alias vim="nvim"
+alias vi="nvim"
+alias vimdiff="nvim -d"
+export EDITOR=nvim
+
 source ~/.bashrc
 
-PATH=~/bin:$PATH
-
 export LIBRARY_PATH="$LIBRARY_PATH:/usr/local/lib"
-export PATH="$HOME/.cargo/bin:$PATH"
-export GOPATH=${HOME}/work
-export GOVERSION=$(brew list go | head -n 1 | cut -d '/' -f 6)
-export GOROOT=$(brew --prefix)/Cellar/go/${GOVERSION}/libexec
-export PATH=${GOPATH}/bin:~/Library/Python/3.6/bin/:$PATH
+export XDG_CONFIG_HOME="$HOME/.config"
+
+export PATH="~/src/flutter/bin:~/bin:$HOME/.cargo/bin:`yarn global bin`:$PATH"
+
+. $HOME/.asdf/asdf.sh
+. $HOME/.asdf/completions/asdf.bash
+
+test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash"

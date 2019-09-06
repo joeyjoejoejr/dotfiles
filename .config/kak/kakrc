@@ -1,0 +1,69 @@
+add-highlighter global/ number-lines -hlcursor
+add-highlighter global/ wrap
+add-highlighter global/ show-matching
+add-highlighter global/ show-whitespaces
+
+# Indentation
+set-option global tabstop 2
+set-option global indentwidth 2
+
+# Finding
+map global normal <c-p> ': fzf-mode<ret>'
+
+# Tabs to spaces
+hook global InsertChar \t %{
+  exec -draft h@
+}
+
+# Scrolloff (space around cursor when scrolling) Do i want this?
+# set-option global scrolloff 10,10
+
+# Kakoune language server
+eval %sh{kak-lsp --kakoune -s $kak_session}
+lsp-enable
+lsp-auto-hover-enable
+
+#snippets-expand-trigger %{
+    #reg / "%opt{snippets_triggers_regex}"
+    ## select to the beginning of the line, and then subselect for one of the triggers
+    #exec 'hGhs<ret>'
+#}
+
+# Tab completion
+hook global InsertCompletionShow .* %{
+   try %{
+        # this command temporarily removes cursors preceded by whitespace;
+        # if there are no cursors left, it raises an error, does not
+        # continue to execute the mapping commands, and the error is eaten
+        # by the `try` command so no warning appears.
+        execute-keys -draft 'h<a-K>\h<ret>'
+        map window insert <tab> <c-n>
+        map window insert <s-tab> <c-p>
+    }
+}
+
+hook global InsertCompletionHide .* %{
+    unmap window insert <tab> <c-n>
+    unmap window insert <s-tab> <c-p>
+}
+
+# Mode line
+set-option global modelinefmt %{{Error}%sh{[ $kak_opt_lsp_diagnostic_error_count -gt 0 ] && echo "$kak_opt_lsp_diagnostic_error_count"}{Default} %val{bufname} %val{cursor_line}:%val{cursor_char_column} {{context_info}} {{mode_info}} - %val{client}@[%val{session}]}
+
+# Expand snippets
+
+#Plugins
+source "%val{config}/plugins/plug.kak/rc/plug.kak"
+plug "andreyorst/plug.kak" noload
+plug "andreyorst/fzf.kak"
+
+plug "occivink/kakoune-snippets" config %{
+    set-option -add global snippets_directories "%opt{plug_install_dir}/kakoune-snippet-collection/snippets"
+    set-option global snippets_auto_expand false
+
+    ## some other kakoune-snippets related configurations
+}
+#
+plug "andreyorst/kakoune-snippet-collection"
+
+colorscheme gruvbox
