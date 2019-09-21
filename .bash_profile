@@ -1,4 +1,9 @@
-alias g=git
+alias vim="nvim"
+alias vi="nvim"
+alias vimdiff="nvim -d"
+alias dcr="docker-compose run rails"
+export EDITOR=nvim
+
 source ~/.bashrc
 source ~/.bash/.git-completion.bash
 source ~/.bash/.git-prompt.sh
@@ -14,3 +19,13 @@ fi
 export PATH="/usr/local/sbin:$PATH"
 
 export PATH="$HOME/.cargo/bin:$PATH"
+
+export LIBRARY_PATH="$LIBRARY_PATH:/usr/local/lib"
+export XDG_CONFIG_HOME="$HOME/.config"
+
+export PATH="~/src/flutter/bin:~/bin:$HOME/.cargo/bin:`yarn global bin`:$PATH"
+
+. $HOME/.asdf/asdf.sh
+. $HOME/.asdf/completions/asdf.bash
+
+test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash"

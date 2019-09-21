@@ -5,38 +5,33 @@ call vundle#begin()
 
 " let Vundle manage Vundle
 " required! 
-Plugin 'gmarik/Vundle.vim'
+Plugin 'VundleVim/Vundle.vim'
 
 " My Plugins here:
 
 " Languages
-Plugin 'tpope/vim-fireplace'
-Plugin 'guns/vim-clojure-static'
 Plugin 'elixir-lang/vim-elixir'
-Plugin 'derekwyatt/vim-scala'
 Plugin 'kchmck/vim-coffee-script'
-Plugin 'slim-template/vim-slim.git'
-Plugin 'wting/rust.vim'
+Plugin 'pangloss/vim-javascript'
+Plugin 'mxw/vim-jsx', { 'for': ['jsx', 'javascript.jsx'] }
 Plugin 'fatih/vim-go'
-Plugin 'digitaltoad/vim-jade'
 Plugin 'pangloss/vim-javascript'
 Plugin 'mxw/vim-jsx'
+Plugin 'ngmy/vim-rubocop'
+Plugin 'rust-lang/rust.vim'
+Plugin 'HerringtonDarkholme/yats.vim;
 
-" Completion
-" Plugin 'Rip-Rip/clang_complete'
-" Plugin 'Valloric/YouCompleteMe'
-" Plugin 'SirVer/ultisnips'
+" Expansion
+Plugin 'mattn/emmet-vim'
 
-" Documentation
+Plugin 'majutsushi/tagbar'
+Plugin 'mhartington/nvim-typescript'
+
 Plugin 'rizzatti/dash.vim'
 
 Plugin 'bling/vim-airline'
-Plugin 'edsono/vim-matchit'
-Plugin 'godlygeek/tabular'
-Plugin 'majutsushi/tagbar'
 Plugin 'rking/ag.vim'
 Plugin 'scrooloose/syntastic'
-Plugin 'sjl/gundo.vim'
 Plugin 'tpope/vim-endwise'
 Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-rails'

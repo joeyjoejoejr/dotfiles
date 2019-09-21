@@ -1,23 +1,94 @@
-" vim instead of vi
-set nocompatible
+if &compatible
+  set nocompatible
+endif
+" install plugins using dein
+set runtimepath+=/Users/josephjackson/.cache/dein/repos/github.com/Shougo/dein.vim
 
-" using vundle to load all plugins
-if filereadable(expand("~/.vundle"))
-  source ~/.vundle
+if dein#load_state('/Users/josephjackson/.cache/dein')
+  call dein#begin('/Users/josephjackson/.cache/dein')
+
+  " Let dein manage dein
+  " Required:
+  call dein#add('/Users/josephjackson/.cache/dein/repos/github.com/Shougo/dein.vim')
+
+  call dein#add('/Users/josephjackson/.cache/dein')
+  call dein#add('Shougo/deoplete.nvim')
+  call dein#add('Shougo/denite.nvim')
+
+  " Completions
+  " call dein#add('sebastianmarkow/deoplete-rust')
+  call dein#add('racer-rust/vim-racer')
+
+  if !has('nvim')
+    call dein#add('roxma/nvim-yarp')
+    call dein#add('roxma/vim-hug-neovim-rpc')
+  endif
+
+  call dein#add('elixir-lang/vim-elixir')
+  call dein#add('pangloss/vim-javascript')
+  call dein#add('mxw/vim-jsx')
+  call dein#add('HerringtonDarkholme/yats.vim')
+  call dein#add('mhartington/nvim-typescript', { 'build': './install.sh' })
+  call dein#add('ngmy/vim-rubocop')
+  call dein#add('rust-lang/rust.vim')
+  call dein#add('fatih/vim-go')
+
+  " Expansion
+  call dein#add('mattn/emmet-vim')
+
+  call dein#add('majutsushi/tagbar')
+
+  call dein#add('rizzatti/dash.vim')
+
+  call dein#add('bling/vim-airline')
+  call dein#add('rking/ag.vim')
+  call dein#add('scrooloose/syntastic')
+  call dein#add('tpope/vim-endwise')
+  call dein#add('tpope/vim-fugitive')
+  call dein#add('tpope/vim-rails')
+  call dein#add('tpope/vim-unimpaired')
+  call dein#add('tpope/vim-surround')
+  call dein#add('tpope/vim-commentary')
+  call dein#add('kien/ctrlp.vim')
+
+  call dein#add('iCyMind/NeoSolarized')
+  call dein#add('ayu-theme/ayu-vim')
+  call dein#add('vim-airline/vim-airline-themes')
+
+  call dein#add('vimwiki/vimwiki')
+
+  call dein#end()
+  call dein#save_state()
 endif
 
-" enable syntax highlighting and file type detection
-syntax on
+" Required:
 filetype plugin indent on
+syntax enable
+
+" If you want to install not installed plugins on startup.
+if dein#check_install()
+  call dein#install()
+endif
+
+
+" jsx support
+let g:jsx_ext_required = 0
+let g:user_emmet_settings = {
+\  'javascript.jsx' : {
+\      'extends' : 'jsx',
+\  },
+\  'javascript' : {
+\      'extends' : 'jsx',
+\  },
+\}
 
 " ---------------------------------------------------------------------------
 " BASIC SETTINGS
 " ---------------------------------------------------------------------------
 
-" Colorscheme options
-colorscheme default
 
 " Other Options
+set belloff=all
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*/node_modules/*,*/coverage/*
 set wildmode=longest,list,full
 set wildmenu
@@ -37,7 +108,7 @@ set hlsearch
 set nobackup
 set nowritebackup
 set noswapfile
-set list listchars=tab:\ \ ,trail:·
+set list listchars=tab:▸\ ,trail:·
 set autoread
 set showcmd
 " set the default text width to 80
@@ -77,6 +148,7 @@ augroup vimrcEx
   autocmd BufNewFile,BufRead *.sql set filetype=mysql
   autocmd BufNewFile,BufRead *.clj set filetype=clojure
   autocmd BufNewFile,BufRead *.json set filetype=javascript
+  autocmd BufNewFile,BufRead *.jsx set filetype=javascript
   autocmd BufNewFile,BufRead *.thor set filetype=ruby
   autocmd BufNewFile,BufRead Gemfile set filetype=ruby
   autocmd BufNewFile,BufRead Rakefile set filetype=ruby
@@ -104,111 +176,54 @@ augroup END
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " COLOR
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-:set t_Co=256 " 256 colors
-:set background=dark
-:color grb256
+colorscheme NeoSolarized
+set termguicolors
+let ayucolor="dark"
+colorscheme ayu
+let g:airline_theme='bubblegum'
 
 " ---------------------------------------------------------------------------
 " PLUGIN SETTINGS
 " ---------------------------------------------------------------------------
 
+" Deocomplete
+let g:deoplete#enable_at_startup = 1
+" if executable('racer')
+"   let g:deoplete#sources#rust#racer_binary = systemlist('which racer')[0]
+" endif
+
+" if executable('rustc')
+"   " if src installed via rustup, we can get it by running 
+"   " rustc --print sysroot then appending the rest of the path
+"   let rustc_root = systemlist('rustc --print sysroot')[0]
+"   let rustc_src_dir = rustc_root . '/lib/rustlib/src/rust/src'
+"   if isdirectory(rustc_src_dir)
+"     let g:deoplete#sources#rust#rust_source_path = rustc_src_dir
+"   endif
+" endif
+
+" let g:deoplete#sources#rust#show_duplicates=1
+" let g:deoplete#sources#rust#documentation_max_height=20
+let g:racer_experimental_completer = 1
+
 " Dash Setting
 let g:dash_map = { 'objc': 'iphoneos' }
+
+" RustFmt Setting
+let g:rustfmt_autosave = 1
 
 " syntastic warnings
 let g:syntastic_enable_signs=1
 let g:syntastic_quiet_messages = {'level': 'warnings'}
 let g:syntastic_mode_map={ 'mode': 'active', 'active_filetypes': [], 'passive_filetypes': ['html', 'vimwiki', 'vim'] }
+let g:syntastic_javascript_checkers=['eslint']
+let g:syntastic_javascript_eslint_exe='$(npm bin)/eslint'
 
 " % to bounce from do to end etc.
 runtime! macros/matchit.vim
 
-" gundo undo visualizer
-nnoremap <F5> :GundoToggle<CR>
-
 " this seems to fix rvm
 set shell=/bin/bash
-
-" clang_complete settings
-" let g:clang_complete_auto = 0
-" let g:clang_use_library = 1
-" let g:clang_periodic_quickfix = 0
-" let g:clang_close_preview = 1
-" let g:clang_snippets = 1
-
-" let g:clang_exec = '/Users/joe/.vim/bundle/clang_complete/clang/bin'
-" let g:clang_library_path = '/Users/joe/.vim/bundle/clang_complete/clang/lib'
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" RUNNING TESTS
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" function! MapCR()
-"   nnoremap <cr> :call RunTestFile()<cr>
-" endfunction
-" call MapCR()
-
-" nnoremap <leader>T :call RunNearestTest()<cr>
-" nnoremap <leader>a :call RunTests('')<cr>
-" nnoremap <leader>c :w\|:!script/features<cr>
-" nnoremap <leader>w :w\|:!script/features --profile wip<cr>
-
-" function! RunTestFile(...)
-"     if a:0
-"         let command_suffix = a:1
-"     else
-"         let command_suffix = ""
-"     endif
-
-"     " Run the tests for the previously-marked file.
-"     let in_test_file = match(expand("%"), '\(.feature\|_spec.rb\)$') != -1
-"     if in_test_file
-"         call SetTestFile()
-"     elseif !exists("t:grb_test_file")
-"         return
-"     end
-"     call RunTests(t:grb_test_file . command_suffix)
-" endfunction
-
-" function! RunNearestTest()
-"     let spec_line_number = line('.')
-"     call RunTestFile(":" . spec_line_number)
-" endfunction
-
-" function! SetTestFile()
-"     " Set the spec file that tests will be run for.
-"     let t:grb_test_file=@%
-" endfunction
-
-" function! RunTests(filename)
-"     " Write the file and run tests for the given filename
-"     if expand("%") != ""
-"       :w
-"     end
-"     if match(a:filename, '\.feature$') != -1
-"         exec ":!script/features " . a:filename
-"     else
-"         " First choice: project-specific test script
-"         if filereadable("script/test")
-"             exec ":!script/test " . a:filename
-"         " Fall back to the .test-commands pipe if available, assuming someone
-"         " is reading the other side and running the commands
-"         elseif filewritable(".test-commands")
-"           let cmd = 'rspec --color --format progress --require "~/lib/vim_rspec_formatter" --format VimFormatter --out tmp/quickfix'
-"           exec ":!echo " . cmd . " " . a:filename . " > .test-commands"
-
-"           " Write an empty string to block until the command completes
-"           sleep 100m " milliseconds
-"           :!echo > .test-commands
-"           redraw!
-"         " Fall back to a blocking test run with Bundler
-"         elseif filereadable("Gemfile")
-"             exec ":!bundle exec rspec --color " . a:filename
-"         " Fall back to a normal blocking test run
-"         else
-"             exec ":!rspec --color " . a:filename
-"         end
-"     end
-" endfunction
 
 " ---------------------------------------------------------------------------
 " MAPPINGS
@@ -248,24 +263,11 @@ nmap <silent> <leader>ev :e $MYVIMRC<CR>
 nmap <silent> <leader>sr :so $MYVIMRC<CR>
 
 " open text files
-nmap <leader>pn :sp $PWD/project-notes.txt<cr>
-nmap <leader>sn :sp ~/Documents/tool-sharpening-list.md<cr>
-
-" Custom Git Command to run tests and commit with message
-command! -nargs=1 Scommit silent execute '!testandcommit' <f-args> '&>/dev/null' '&' | redraw!
+nmap <leader>pn :sp $PWD/project-notes.md<cr>
 
 " dash
 nmap <silent> <leader>dd <Plug>DashSearch
 nmap <silent> <leader>dg <Plug>DashGlobalSearch
-
-" smart square brackets for objc methods
-imap <C-]> <Esc>yss]$i
-"
-" Objective-C related tasks bindings
-nmap <leader>x :!rake xcode_build<CR>
-nmap <leader>r :!rake simulator<CR>
-nmap <leader>ll :!rake debug<CR>
-nmap <leader>cl :!rake clang_db<CR>
 
 " map git commands
 nmap <leader>gs :Gstatus<cr>

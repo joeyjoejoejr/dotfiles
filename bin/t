@@ -1,4 +1,0 @@
-#!/Users/joe/.rubies/ruby-2.0.0-p247/bin/ruby
-ENV['GEM_HOME'] = "/Users/joe/.gem/ruby/2.0.0/"
-ENV['GEM_PATH'] = "/Users/joe/.gem/ruby/2.0.0:/Users/joe/.rubies/ruby-2.0.0-p247/lib/ruby/gems/2.0.0"
-load '/Users/joe/.gem/ruby/2.0.0/bin/t'
