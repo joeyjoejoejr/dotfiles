@@ -1,6 +1,7 @@
 alias vim="nvim"
 alias vi="nvim"
 alias vimdiff="nvim -d"
+alias dcr="docker-compose run rails"
 export EDITOR=nvim
 
 source ~/.bashrc

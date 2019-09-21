@@ -10,6 +10,8 @@ set-option global indentwidth 2
 # Finding
 map global normal <c-p> ': fzf-mode<ret>'
 
+set global grepcmd 'ag --column'
+
 # Disable clippy
 set-option global ui_options ncurses_assistant=off
 
@@ -19,13 +21,16 @@ hook global InsertChar \t %{
 }
 
 # Splits
-define-command -docstring "Split vertically" vs %{
+define-command -docstring "Split vertically" sp %{
   tmux-terminal-vertical kak -c %val{session}
 }
 
-define-command -docstring "Split horizontally" sp %{
+define-command -docstring "Split horizontally" vs %{
   tmux-terminal-horizontal kak -c %val{session}
 }
+
+# Ruby
+hook global BufCreate .+\.html\.erb %{ set buffer filetype html }
 
 # Scrolloff (space around cursor when scrolling) Do i want this?
 # set-option global scrolloff 10,10
@@ -40,14 +45,28 @@ hook global WinSetOption filetype=rust %{
   map global normal \' ': enter-user-mode lsp<ret>'
 }
 
+hook global WinSetOption filetype=ruby %{
+  set window lintcmd "rubocop -f emacs -c .rubocop.yml"
+
+  hook global WinDisplay .* %{
+    lint-enable
+    lint
+  }
+  hook window BufWritePost .* lint
+
+  set window formatcmd "rbprettier --prefer-single-quotes false --print-width 100 --stdin --parser=ruby"
+  hook window BufWritePre .* format
+}
+
+hook global WinDisplay filetype=ruby %{
+}
+
 # Copy Paste
 hook global NormalKey y|d|c %{ nop %sh{
   printf %s "$kak_main_reg_dquote" | pbcopy
 }}
 map -docstring "Paste from cliboard(before cursor)" global user P '!pbpaste<ret>'
 map -docstring "Paste from cliboard(after cursor)" global user p '<a-!>pbpaste<ret>'
-
-
 
 # Tab completion
 hook global InsertCompletionShow .* %{
@@ -68,7 +87,7 @@ hook global InsertCompletionHide .* %{
 }
 
 # Mode line
-set-option global modelinefmt %{{Error}%sh{[ $kak_opt_lsp_diagnostic_error_count -gt 0 ] && echo "$kak_opt_lsp_diagnostic_error_count"}{Default} %val{bufname} %val{cursor_line}:%val{cursor_char_column} {{context_info}} {{mode_info}} - %val{client}@[%val{session}]}
+# set-option global modelinefmt %{{Error}%sh{[ $kak_opt_lsp_diagnostic_error_count -gt 0 ] && echo "$kak_opt_lsp_diagnostic_error_count"}{Default} %val{bufname} %val{cursor_line}:%val{cursor_char_column} {{context_info}} {{mode_info}} - %val{client}@[%val{session}]}
 
 # Expand snippets
 
