@@ -84,6 +84,7 @@ augroup vimrcEx
   autocmd BufNewFile,BufRead *.hbs set filetype=html
   autocmd BufNewFile,BufRead *.eex set filetype=html
   autocmd BufNewFile,BufRead *.dasm set filetype=m65
+  autocmd BufNewFile,BufRead *.md set filetype=markdown
 
   autocmd FileType objc set softtabstop=4 tabstop=4 shiftwidth=4
   " Jump to last cursor position unless it's invalid or in an event handler
@@ -234,6 +235,7 @@ noremap \ ,
 let mapleader = ','
 let g:ctrlp_map = '<c-p>'
 let g:ctrlp_custom_ignore = '\v[\/](src\/bower_components|dist)'
+let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
 function! MapCR()
   nnoremap <cr> :nohl<cr><cr>
 endfunction
@@ -276,3 +278,9 @@ noremap <silent> <Right> <c-w>l
 noremap <silent> <Left> <c-w>h
 noremap <silent> <Up> <c-w>k
 noremap <silent> <Down> <c-w>j
+
+" setup jsx
+let g:jsx_ext_required = 0
+
+" Toggle spell checking
+noremap <silent> <leader>s :set spell!<cr>

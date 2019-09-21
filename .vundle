@@ -18,6 +18,9 @@ Plugin 'kchmck/vim-coffee-script'
 Plugin 'slim-template/vim-slim.git'
 Plugin 'wting/rust.vim'
 Plugin 'fatih/vim-go'
+Plugin 'digitaltoad/vim-jade'
+Plugin 'pangloss/vim-javascript'
+Plugin 'mxw/vim-jsx'
 
 " Completion
 " Plugin 'Rip-Rip/clang_complete'

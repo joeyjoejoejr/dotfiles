@@ -17,3 +17,4 @@
 	conflictstyle = diff3
 [core]
 	precomposeunicode = true
+	editor = /usr/bin/vim
