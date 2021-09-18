@@ -31,13 +31,9 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 " Syntacitic language support
 Plug 'cespare/vim-toml'
 Plug 'elixir-lang/vim-elixir'
-Plug 'pangloss/vim-javascript'
-Plug 'mxw/vim-jsx'
-Plug 'HerringtonDarkholme/yats.vim'
 Plug 'rust-lang/rust.vim'
 Plug 'plasticboy/vim-markdown'
 Plug 'jparise/vim-graphql'
-Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
 
 
 " Expansion
@@ -61,17 +57,6 @@ call plug#end()
 filetype plugin indent on
 syntax on
 syntax enable
-
-" jsx support
-let g:jsx_ext_required = 0
-let g:user_emmet_settings = {
-\  'javascript.jsx' : {
-\      'extends' : 'jsx',
-\  },
-\  'javascript' : {
-\      'extends' : 'jsx',
-\  },
-\}
 
 " ---------------------------------------------------------------------------
 " BASIC SETTINGS
@@ -138,8 +123,6 @@ augroup vimrcEx
   " FILE TYPES
   autocmd BufNewFile,BufRead *.sql set filetype=mysql
   autocmd BufNewFile,BufRead *.clj set filetype=clojure
-  autocmd BufNewFile,BufRead *.json set filetype=javascript
-  autocmd BufNewFile,BufRead *.jsx set filetype=javascript
   autocmd BufNewFile,BufRead *.thor set filetype=ruby
   autocmd BufNewFile,BufRead Gemfile set filetype=ruby
   autocmd BufNewFile,BufRead Rakefile set filetype=ruby
@@ -225,7 +208,7 @@ nnoremap <leader><leader> <c-^>
 
 " FZF settings
 let g:fzf_layout = { 'down': '~20%' }
-let $FZF_DEFAULT_COMMAND = 'ag -g ""'
+let $FZF_DEFAULT_COMMAND = 'ag --hidden --ignore .git -g ""'
 
 map <silent> <C-p> :Files<CR>
 
@@ -236,9 +219,9 @@ nmap <silent> <leader>sr :so $MYVIMRC<CR>
 " open text files
 nmap <leader>pn :sp $PWD/project-notes.md<cr>
 
-" dash
-nmap <silent> <leader>dd <Plug>DashSearch
-nmap <silent> <leader>dg <Plug>DashGlobalSearch
+" spell check
+vmap <leader>a <Plug>(coc-codeaction-selected)
+nmap <leader>a <Plug>(coc-codeaction-selected)
 
 " map git commands
 nmap <leader>gs :Gstatus<cr>
