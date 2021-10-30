@@ -37,6 +37,7 @@ hook global BufCreate .+\.html\.erb %{ set buffer filetype html }
 
 # Kakoune language server
 eval %sh{kak-lsp --kakoune -s $kak_session}
+set global lsp_cmd "kak-lsp -s %val{session} -vvv --log /tmp/kak-lsp.log"
 lsp-enable
 lsp-auto-hover-enable
 
@@ -59,6 +60,12 @@ hook global WinSetOption filetype=ruby %{
 }
 
 hook global WinDisplay filetype=ruby %{
+}
+
+hook global WinSetOption filetype=python %{
+  set-option buffer tabstop 4
+  set-option buffer indentwidth 4
+  hook window BufWritePre .* lsp-formatting-sync
 }
 
 # Copy Paste

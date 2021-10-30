@@ -1,86 +1,62 @@
 if &compatible
   set nocompatible
 endif
-" install plugins using dein
-set runtimepath+=/Users/josephjackson/.cache/dein/repos/github.com/Shougo/dein.vim
 
-if dein#load_state('/Users/josephjackson/.cache/dein')
-  call dein#begin('/Users/josephjackson/.cache/dein')
+call plug#begin('~/.vim/plugged')
 
-  " Let dein manage dein
-  " Required:
-  call dein#add('/Users/josephjackson/.cache/dein/repos/github.com/Shougo/dein.vim')
-
-  call dein#add('/Users/josephjackson/.cache/dein')
-  call dein#add('Shougo/deoplete.nvim')
-  call dein#add('Shougo/denite.nvim')
-
-  " Completions
-  " call dein#add('sebastianmarkow/deoplete-rust')
-  call dein#add('racer-rust/vim-racer')
-
-  if !has('nvim')
-    call dein#add('roxma/nvim-yarp')
-    call dein#add('roxma/vim-hug-neovim-rpc')
-  endif
-
-  call dein#add('elixir-lang/vim-elixir')
-  call dein#add('pangloss/vim-javascript')
-  call dein#add('mxw/vim-jsx')
-  call dein#add('HerringtonDarkholme/yats.vim')
-  call dein#add('mhartington/nvim-typescript', { 'build': './install.sh' })
-  call dein#add('ngmy/vim-rubocop')
-  call dein#add('rust-lang/rust.vim')
-  call dein#add('fatih/vim-go')
-
-  " Expansion
-  call dein#add('mattn/emmet-vim')
-
-  call dein#add('majutsushi/tagbar')
-
-  call dein#add('rizzatti/dash.vim')
-
-  call dein#add('bling/vim-airline')
-  call dein#add('rking/ag.vim')
-  call dein#add('scrooloose/syntastic')
-  call dein#add('tpope/vim-endwise')
-  call dein#add('tpope/vim-fugitive')
-  call dein#add('tpope/vim-rails')
-  call dein#add('tpope/vim-unimpaired')
-  call dein#add('tpope/vim-surround')
-  call dein#add('tpope/vim-commentary')
-  call dein#add('kien/ctrlp.vim')
-
-  call dein#add('iCyMind/NeoSolarized')
-  call dein#add('ayu-theme/ayu-vim')
-  call dein#add('vim-airline/vim-airline-themes')
-
-  call dein#add('vimwiki/vimwiki')
-
-  call dein#end()
-  call dein#save_state()
+if has('nvim')
+  Plug 'Shougo/denite.nvim', { 'do': ':UpdateRemotePlugins' }
+else
+  Plug 'Shougo/denite.nvim'
+  Plug 'roxma/nvim-yarp'
+  Plug 'roxma/vim-hug-neovim-rpc'
 endif
+
+" VIM Enhancements
+Plug 'editorconfig/editorconfig-vim'
+
+" GUI Enhancements
+Plug 'bling/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'machakann/vim-highlightedyank'
+
+" Fuzzy finder
+Plug 'airblade/vim-rooter'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+
+" Completions
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
+" Syntacitic language support
+Plug 'cespare/vim-toml'
+Plug 'elixir-lang/vim-elixir'
+Plug 'rust-lang/rust.vim'
+Plug 'plasticboy/vim-markdown'
+Plug 'jparise/vim-graphql'
+
+
+" Expansion
+Plug 'mattn/emmet-vim'
+
+Plug 'tpope/vim-endwise'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-rails'
+Plug 'tpope/vim-unimpaired'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-commentary'
+
+Plug 'iCyMind/NeoSolarized'
+Plug 'ayu-theme/ayu-vim'
+
+Plug 'vimwiki/vimwiki'
+
+call plug#end()
 
 " Required:
 filetype plugin indent on
+syntax on
 syntax enable
-
-" If you want to install not installed plugins on startup.
-if dein#check_install()
-  call dein#install()
-endif
-
-
-" jsx support
-let g:jsx_ext_required = 0
-let g:user_emmet_settings = {
-\  'javascript.jsx' : {
-\      'extends' : 'jsx',
-\  },
-\  'javascript' : {
-\      'extends' : 'jsx',
-\  },
-\}
 
 " ---------------------------------------------------------------------------
 " BASIC SETTINGS
@@ -147,8 +123,6 @@ augroup vimrcEx
   " FILE TYPES
   autocmd BufNewFile,BufRead *.sql set filetype=mysql
   autocmd BufNewFile,BufRead *.clj set filetype=clojure
-  autocmd BufNewFile,BufRead *.json set filetype=javascript
-  autocmd BufNewFile,BufRead *.jsx set filetype=javascript
   autocmd BufNewFile,BufRead *.thor set filetype=ruby
   autocmd BufNewFile,BufRead Gemfile set filetype=ruby
   autocmd BufNewFile,BufRead Rakefile set filetype=ruby
@@ -186,38 +160,11 @@ let g:airline_theme='bubblegum'
 " PLUGIN SETTINGS
 " ---------------------------------------------------------------------------
 
-" Deocomplete
-let g:deoplete#enable_at_startup = 1
-" if executable('racer')
-"   let g:deoplete#sources#rust#racer_binary = systemlist('which racer')[0]
-" endif
-
-" if executable('rustc')
-"   " if src installed via rustup, we can get it by running 
-"   " rustc --print sysroot then appending the rest of the path
-"   let rustc_root = systemlist('rustc --print sysroot')[0]
-"   let rustc_src_dir = rustc_root . '/lib/rustlib/src/rust/src'
-"   if isdirectory(rustc_src_dir)
-"     let g:deoplete#sources#rust#rust_source_path = rustc_src_dir
-"   endif
-" endif
-
-" let g:deoplete#sources#rust#show_duplicates=1
-" let g:deoplete#sources#rust#documentation_max_height=20
-let g:racer_experimental_completer = 1
-
 " Dash Setting
 let g:dash_map = { 'objc': 'iphoneos' }
 
 " RustFmt Setting
 let g:rustfmt_autosave = 1
-
-" syntastic warnings
-let g:syntastic_enable_signs=1
-let g:syntastic_quiet_messages = {'level': 'warnings'}
-let g:syntastic_mode_map={ 'mode': 'active', 'active_filetypes': [], 'passive_filetypes': ['html', 'vimwiki', 'vim'] }
-let g:syntastic_javascript_checkers=['eslint']
-let g:syntastic_javascript_eslint_exe='$(npm bin)/eslint'
 
 " % to bounce from do to end etc.
 runtime! macros/matchit.vim
@@ -232,6 +179,11 @@ set shell=/bin/bash
 " MULTIPURPOSE TAB KEY
 " " Indent if we're at the beginning of a line. Else, do completion.
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Better display for messages
+set cmdheight=2
+" You will have bad experience for diagnostic messages when it's default 4000.
+set updatetime=300
+
 function! InsertTabWrapper()
   let col = col('.') - 1
   if !col || getline('.')[col - 1] !~ '\k'
@@ -248,6 +200,7 @@ inoremap <s-tab> <c-n>
 noremap , \
 noremap \ ,
 let mapleader = ','
+<<<<<<< HEAD
 let g:ctrlp_map = '<c-p>'
 let g:ctrlp_custom_ignore = '\v[\/](src\/bower_components|dist)'
 let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
@@ -258,6 +211,12 @@ call MapCR()
 
 nnoremap <leader><leader> <c-^>
 
+" FZF settings
+let g:fzf_layout = { 'down': '~20%' }
+let $FZF_DEFAULT_COMMAND = 'ag --hidden --ignore .git -g ""'
+
+map <silent> <C-p> :Files<CR>
+
 " comands to edit and reload vimrc
 nmap <silent> <leader>ev :e $MYVIMRC<CR>
 nmap <silent> <leader>sr :so $MYVIMRC<CR>
@@ -265,9 +224,9 @@ nmap <silent> <leader>sr :so $MYVIMRC<CR>
 " open text files
 nmap <leader>pn :sp $PWD/project-notes.md<cr>
 
-" dash
-nmap <silent> <leader>dd <Plug>DashSearch
-nmap <silent> <leader>dg <Plug>DashGlobalSearch
+" spell check
+vmap <leader>a <Plug>(coc-codeaction-selected)
+nmap <leader>a <Plug>(coc-codeaction-selected)
 
 " map git commands
 nmap <leader>gs :Gstatus<cr>

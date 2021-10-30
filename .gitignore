@@ -1,2 +1,6 @@
 .config/kak/plugins
 .config/configstore
+bin/wasm-opt
+bin/wasm-strip
+node_modules
+.config/coc/

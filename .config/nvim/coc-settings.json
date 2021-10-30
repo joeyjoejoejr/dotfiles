@@ -1,0 +1,13 @@
+{
+  "python.formatting.provider": "black",
+  "coc.preferences.formatOnSaveFiletypes": [
+    "python",
+    "json",
+    "typescript",
+    "javascript",
+    "javascriptreact",
+    "rust"
+  ],
+  "rust-analyzer.checkOnSave.command": "clippy",
+  "cSpell.userWords": ["Ethnicities", "bindgen", "clippy"]
+}
