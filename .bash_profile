@@ -3,6 +3,7 @@ alias vi="nvim"
 alias vimdiff="nvim -d"
 alias dcr="docker-compose run rails"
 export EDITOR=nvim
+eval "$(rbenv init - bash)"
 
 source ~/.bashrc
 source ~/.bash/.git-completion.bash
@@ -31,3 +32,4 @@ export PATH="~/src/flutter/bin:~/bin:$HOME/.cargo/bin:`yarn global bin`:$PATH"
 test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash"
 export PATH="/usr/local/opt/python@3.8/bin:$PATH"
 source "$HOME/.cargo/env"
+[[ -f ~/.bashrc ]] && source ~/.bashrc # ghcup-env

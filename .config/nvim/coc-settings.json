@@ -6,8 +6,48 @@
     "typescript",
     "javascript",
     "javascriptreact",
+    "ruby",
     "rust"
   ],
   "rust-analyzer.checkOnSave.command": "clippy",
-  "cSpell.userWords": ["Ethnicities", "bindgen", "clippy"]
+  "cSpell.userWords": [
+    "Ethnicities",
+    "Sidekiq",
+    "Timecop",
+    "bindgen",
+    "clippy"
+  ],
+  "cSpell.enabledLanguageIds": [
+    "ruby",
+    "javascript",
+    "javascriptreact",
+    "markdown",
+    "yml"
+  ],
+  "solargraph.diagnostics": true,
+  "solargraph.trace.server": "verbose", 
+  "solargraph.transport": "stdio",
+  "solargraph.format": true,
+  "solargraph.autoformat": true,
+  "solargraph.useBundler": true,
+  "languageserver": {
+    "haskell": {
+      "command": "haskell-language-server-wrapper",
+      "args": [
+        "--lsp"
+      ],
+      "rootPatterns": [
+        ".stack.yaml",
+        ".hie-bios",
+        "BUILD.bazel",
+        "cabal.config",
+        "package.yaml"
+      ],
+      "filetypes": [
+        "hs",
+        "lhs",
+        "haskell"
+      ]
+    }
+  }
 }

@@ -200,7 +200,6 @@ inoremap <s-tab> <c-n>
 noremap , \
 noremap \ ,
 let mapleader = ','
-<<<<<<< HEAD
 let g:ctrlp_map = '<c-p>'
 let g:ctrlp_custom_ignore = '\v[\/](src\/bower_components|dist)'
 let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
