@@ -19,7 +19,6 @@ if [ -f "$(brew --prefix)/opt/bash-git-prompt/share/gitprompt.sh" ]; then
 fi
 export PATH="/usr/local/sbin:$PATH"
 
-export PATH="$HOME/.cargo/bin:$PATH"
 
 export LIBRARY_PATH="$LIBRARY_PATH:/usr/local/lib"
 export XDG_CONFIG_HOME="$HOME/.config"
@@ -31,5 +30,5 @@ export PATH="~/src/flutter/bin:~/bin:$HOME/.cargo/bin:`yarn global bin`:$PATH"
 
 test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash"
 export PATH="/usr/local/opt/python@3.8/bin:$PATH"
-source "$HOME/.cargo/env"
 [[ -f ~/.bashrc ]] && source ~/.bashrc # ghcup-env
+. "$HOME/.cargo/env"
